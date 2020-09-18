@@ -7,8 +7,7 @@ def all_imgs(*dirs):
     for d in list(dirs):
         d = os.path.expanduser("~") + "\\" + d
         for caminho, pasta, arquivo in os.walk(d):
-            arqs_caminho = os.listdir(caminho)
-            for a in arqs_caminho:
+            for a in os.listdir(caminho):
                 if a[-3::] == "jpg" or a[-3::] == "png":
                     aux.append(caminho + "\\" + a)
     return aux
