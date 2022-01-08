@@ -25,7 +25,7 @@ def editaScripts(scripts, modificacoes):
         nlinha = 1
         registro_alteracoes = []
         for linha in codigo:
-            for texto_atual in modificacoes:
+            for texto_chave in modificacoes:
                 if texto_chave in linha:
                     linha = linha.replace(texto_chave, modificacoes[texto_chave]) #pega o valor no dicionario "modificacoes" onde "texto_chave" é a chave
                     registro_alteracoes.append(str(nlinha) + " - " + texto_chave + " -> " + modificacoes[texto_chave] + "\n") #guarda as modificações pro log
