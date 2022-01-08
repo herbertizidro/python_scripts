@@ -9,11 +9,11 @@ import time
 #ex: quando nomes de tabelas no banco de dados mudam, algo bem específico que
 #eu sei que se eu rodar o script não irá provocar nenhum erro depois. "ESQUEMA.NOME_TABELA" ou "AMOSTRA_TABELA.feather"
 
-def LOG(script, editado):
+def LOG(script, editado_log):
     data_hora = time.strftime('%d/%m/%Y - %H:%M:%S')
     with open("log-edita-scripts.txt", "a") as arq:
         arq.write("Arquivo: " + script + "\nModificações: \n")
-        for linha in editado:
+        for linha in editado_log:
             arq.write(linha)
         arq.write("\nHora da modificação: " + data_hora + "\n\n")
 
@@ -23,22 +23,22 @@ def editaScripts(scripts, modificacoes):
             codigo = arq.readlines()
         codigo_editado = []
         nlinha = 1
-        editado = []
+        editado_log = []
         for linha in codigo:
-            for chave in modificacoes:
-                if chave in linha:
-                    linha = linha.replace(chave, modificacoes[chave])
-                    editado.append(str(nlinha) + " - " + chave + " -> " + modificacoes[chave] + "\n")
-            codigo_editado.append(linha)
+            for texto_atual in modificacoes:
+                if texto_chave in linha:
+                    linha = linha.replace(texto_chave, modificacoes[texto_chave]) #pega o valor no dicionario "modificacoes" onde "texto_chave" é a chave
+                    editado_log.append(str(nlinha) + " - " + texto_chave + " -> " + modificacoes[texto_chave] + "\n") #guarda as modificações pro log
+            codigo_editado.append(linha) #coloca todo o código no array "codigo_editado" com as modificações
             nlinha += 1
         with open(script, "w") as arq:
             for linha in codigo_editado:
-                arq.write(linha)
-        if len(editado) > 0:
+                arq.write(linha) #reescreve o script
+        if len(editado_log) > 0: 
             print(script + " editado.")
         else:
             print(script + " não foi editado.")
-        LOG(script, editado)
+        LOG(script, editado_log)
 
 
 scripts = ["script1.R", "script2.R"]
